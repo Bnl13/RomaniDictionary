@@ -31,7 +31,7 @@
         <div class="app">
             <h1>Roma Dictionary</h1>
             <div id="deviceready" class="blink">
-            	<p id="truc" onclick=pop($(this).html())>Does it work ??</p>
+            	<a id="truc" onclick=pop($(this).html()) href="./page1.html">Does it work ??</a>
                 <p class="event listening">Connecting to Device</p>
                 <p class="event received">Device is Ready</p>
             </div>
@@ -44,7 +44,6 @@
             
             function pop(msg){
             	alert(msg);
-            	windows.location.href("./page1.html");
             };
         </script>
     </body>
