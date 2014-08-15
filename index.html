@@ -68,11 +68,11 @@
     <body>
     <div id="searchArea" class="side-bar">
     	<div id="searchbox">
-    		<form>
-    			<input id="what" type="text" />
-    		</form>
+<!--     		<form> -->
+<!--     			<input id="what" type="text" /> -->
+<!--     		</form> -->
     		<form class="ui-field-contain">
-    			<fieldset id="listEntry" data-role="controlgroup">
+    			<fieldset id="listEntry" data-role="listview" data-filter="true">
     				<label for="H4" class="item"><input id="H4" class="head" name="menu" type="radio" label="bidule">bidule</label>
     				<label for="H5" class="item"><input id="H5" class="head" name="menu" type="radio" checked="checked" label="bordel">bordel</label>
     			</fieldset>
@@ -184,7 +184,7 @@
 	    });
 	    
 	    
-	    $("[name=menu]").click(function(){
+	    $("[name=menu]").change(function(){
 			console.log("ther");
 	    	console.log(json);
 	    	$("#displayInfos").empty();
