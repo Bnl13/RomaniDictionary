@@ -1,0 +1,97 @@
+[
+ 	{
+		"id": "H0",
+		"type":"head",
+		"form":"truc"
+	},
+	{
+		"id": "W0",
+		"type": "word",
+		"user_id": "U0",
+		"head_id": "H0",
+		"form": "truc",
+		"definition": "This is the interpretation of 'truc' by Bruce",
+		"quote": "'truc' is such a 'truc'",
+		"example": "That is a 'truc'",
+		"audio_id": "A0",
+		"picture_id": "P0"
+	},
+	{
+		"id": "U0",
+		"type": "user",
+		"word_id": "W0",
+		"icon": "I0",
+		"nickname": "brunette",
+		"name": "Bruce"
+	},
+	{
+		"id": "W1",
+		"type": "word",
+		"user_id": "U1",
+		"head_id": "H0",
+		"form": "tryk",
+		"definition": "This is the interpretation of 'truc' by Elodie",
+		"quote": "What a 'truc' !",
+		"example": "That is also a tryk",
+		"audio_id": "A1",
+		"picture_id": "P1"
+	},
+	{
+		"id": "U1",
+		"type": "user",
+		"word_id": "W1",
+		"icon": "I1",
+		"nickname": "brunette princess",
+		"name": "Eleni"
+	},
+	{
+		"id": "H1",
+		"type": "head",
+		"form": "machin"
+	},
+	{
+		"id": "W2",
+		"type": "word",
+		"user_id": "U0",
+		"head_id": "H1",
+		"form": "machin",
+		"definition": "This is the interpretation of 'machin' by Bruce",
+		"quote": "",
+		"audio_id": "A2",
+		"picture_id": "P2"
+	},
+	{
+		"id": "H2",
+		"type": "head",
+		"form": "bidule"
+	},
+	{
+		"id": "W3",
+		"type": "word",
+		"user_id": "U1",
+		"head_id": "H2",
+		"form": "bidyl",
+		"definition": "This is the interpretation of 'bidule' by Eleni",
+		"quote": "",
+		"example": "",
+		"audio_id": "A4",
+		"picture_id": "P4"
+	},
+	{
+		"id": "H4",
+		"type":"head",
+		"form":"bidule"
+	},
+	{
+		"id": "W4",
+		"type": "word",
+		"user_id": "U1",
+		"head_id": "H4",
+		"form": "bidyl",
+		"definition": "This is the interpretation of 'bidule' by Eleni",
+		"quote": "What a 'bidyl' !",
+		"example": "'bidyl' is such a 'bidyl'",
+		"audio_id": "A4",
+		"picture_id": "P4"
+	}
+]

@@ -23,28 +23,201 @@
         <meta name="format-detection" content="telephone=no" />
         <!-- WARNING: for iOS 7, remove the width=device-width and height=device-height attributes. See https://issues.apache.org/jira/browse/CB-4323 -->
         <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height, target-densitydpi=device-dpi" />
-        <link rel="stylesheet" type="text/css" href="css/index.css" />
+<!--         <link rel="stylesheet" href="javascripts/sidr/stylesheets/jquery.sidr.dark.css"> -->
+<!-- 		<link rel="stylesheet" href="css/bootstrap-theme.css" /> -->
         <meta name="msapplication-tap-highlight" content="no" />
         <title>Hello World</title>
+        <style>
+			#mobile-header {
+				display: none;
+			}
+			@media only screen and (max-width: 767px){
+				#mobile-header {
+					display: block;
+				}
+			}
+			.side-bar, .main-window{
+				display:inline-block;
+			}
+			.side-bar {
+				width:20%;
+			}
+			.head, .user {
+/* 				display: block; */
+				appearance: button;
+			}
+
+			.toggle, .toggle-left, .toggle-right, .item {
+				display:inline-block;
+				appearance: button;
+			}
+			#what {
+				width: 96%;
+			}
+			#searchArea, #main {
+				overflow:auto;
+			}
+			#main {
+				position:fixed;
+			}
+			.example {
+				font-style:italic;
+			}
+			</style>
     </head>
     <body>
-        <div class="app">
-            <h1>Roma Dictionary</h1>
-            <div id="deviceready" class="blink">
-            	<a id="truc" onclick=pop($(this).html()) href="./page1.html">Does it work ??</a>
-                <p class="event listening">Connecting to Device</p>
-                <p class="event received">Device is Ready</p>
-            </div>
-        </div>
-        <script type="text/javascript" src="cordova.js"></script>
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
-        <script type="text/javascript" src="js/index.js"></script>
-        <script type="text/javascript">
-            app.initialize();
-            
-            function pop(msg){
-            	alert(msg);
-            };
+    <div id="searchArea" class="side-bar">
+    	<div id="searchbox">
+    		<form>
+    			<input id="what" type="text" />
+    		</form>
+    		<form class="ui-field-contain">
+    			<fieldset id="listEntry" data-role="controlgroup">
+    				<label for="H4" class="item"><input id="H4" class="head" name="menu" type="radio" label="bidule">bidule</label>
+    				<label for="H5" class="item"><input id="H5" class="head" name="menu" type="radio" checked="checked" label="bordel">bordel</label>
+    			</fieldset>
+    		</form>
+    		<form>
+    			<fieldset data-role="controlgroup" data-type="horizontal">
+    				<label for="user" class="toggle">Users</label>
+    				<input type="radio" class="toggle-left" name="filter" value="user" id="user" />
+					<label for="head" class="toggle">Words</label>
+					<input type="radio" class="toggle-right" name="filter" value="head" id="head" />
+					<label for="all" class="toggle">All</label>
+					<input type="radio" class="toggle" name="filter" value="all" checked="checked" id="all" />
+    			</fieldset>
+    		</form>
+   		</div>
+   	</div>
+    <div id="main" class="main-window">
+    	<div class="title"><h1>ROMA DICTIONARY</h1></div>
+    	<div id="displayInfos"></div>
+    </div>
+
+		<script type="text/javascript" src="js/jquery-2.1.1.min.js"></script>
+        <script type="text/javascript" src="js/jquery.mobile-1.4.3.min.js"></script>
+        <script type="text/javascript" src="js/bootstrap.min.js"></script>
+        <script type="text/javascript" src="js/jquery.sidr.min.js"></script>
+        <script type="text/javascript" src="js/knockout-3.1.0.js"></script>
+        <script type="text/javascript" src="js/dico.js"></script>
+        <script>
+        var json = [];
+		$(document).ready(function() {
+            //after button is clicked we download the data
+//             $('.button').click(function(){
+                //start ajax request
+                $.ajax({
+                    url: "data.json",
+                    //force to handle it as text
+                    dataType: "text",
+                    async: true,
+                    success: function(data) {
+                        json = $.parseJSON(data);
+                        //let's display a few items
+                    	$.each(json, function(i, item) {
+                    		if ((json[i].type != "head" && json[i].type != "user") || json[i].id === "H4") {
+                    			return true;
+                    		};
+                    		var id = json[i].id;
+                    		var lab;
+                    		if (json[i].type == "head") {
+                    			lab = json[i].form;
+                    		} else if (json[i].type == "user") {
+                    			lab = json[i].nickname;
+                    		}
+//                     		var div = $("<div/>").appendTo("#listEntry>fieldset");
+                    		var lab = $("<label/>").attr({'for':id, 'class':'item'}).text(lab).appendTo("#listEntry");
+                    		$("<input/>").attr({'id':id, 'name':'menu', 'class':json[i].type, 'value':lab, 'type':'radio'}).appendTo(lab);
+//                     		div.checkboxradio();
+// 	                    		$("#listEntry").append(balise);
+	//                     		$("#listEntry").listview("refresh");
+	//                     		$("#listEntry").listview().listview('refresh');
+	                    });
+                    	$("input").checkboxradio().checkboxradio("refresh");
+//                     	$("input").checkboxradio().checkboxradio("refresh");
+//                         $("#listEntry").enhanceWithin();
+// 	                		$("menu").listview().listview("refresh");
+// 	                		console.log($("#listEntry"));
+	                    }
+	                });
+//             });
+        });
+			
+		$("[name=filter]").click(function(){
+			var val = $('[name=filter]:checked').val();
+			$('.head, .user, .item').hide();
+			$("[name=menu]").each(function(){	
+				if (val === "all"){
+					$(this).show();
+					$("[for=" + $(this).attr("id") +"]").show();
+				} else if ($(this).attr("class").indexOf(val) != -1) {
+					$(this).show();
+					$("[for=" + $(this).attr("id") +"]").show();
+				} else if ($(this).attr("class").indexOf(val) != -1) {
+					$(this).show();
+					$("[for=" + $(this).attr("id") +"]").show();
+				} else {
+					$(this).html();
+					$("[for=" + $(this).attr("id") +"]").html();
+				}
+			});
+		});
+		
+	    $('#what').keyup(function(){
+	        var valThis = $(this).val();
+	        $(".item").each(function(){
+	        	var text = $(this).html().toLowerCase();
+	        	if (text.indexOf(valThis) > -1) {
+	        		$(this).show();
+	        		$("#" + $(this).attr('for')).show();
+	        	} else {
+	        		$(this).hide();
+	        		$("#" + $(this).attr('for')).hide();
+	        	}
+	        });
+	     });
+	    
+	    $(document).on('ready', function() {
+	    	$("[name=menu]").each(function(){
+	    		console.log($(this));
+	    	});
+	    });
+	    
+	    
+	    $("[name=menu]").click(function(){
+			console.log("ther");
+	    	console.log(json);
+	    	$("#displayInfos").empty();
+	    	var id = $('[name=menu]:checked').attr("id");
+	    	var type = $("#" + id).attr("class");
+	    	var titre;
+	    	var body = $("<div/>").attr({'class':'UserEntry'}).appendTo("#displayInfos");
+	    	console.log(id);
+	    	$.each(json, function(i, item){
+	    		console.log(json[i].id + "\t" + id);
+    			if (type == "head") {
+    				if (json[i].id == id) {
+    					titre = $("<h1/>").attr({'class':'HeadWord'}).text(json[i].form).prependTo("#displayInfos");
+    				} else if (json[i].head_id == id) {
+    					$("<h2/>").attr({'class':'entry'}).text(json[i].form).appendTo(body);
+    					$("<h3/>").attr({'class':'quote'}).text(json[i].quote).appendTo(body);
+    					$("<p/>").attr({'class':'def'}).text(json[i].definition).appendTo(body);
+    					$("<p/>").attr({'class':'example'}).text(json[i].example).appendTo(body);
+    				}
+    			} else if (type == "user") {
+    				if (json[i].id == id) {
+    					titre = $("<h1/>").attr({'class':'HeadWord'}).text(json[i].nickname).prependTo("#displayInfos");
+    				} else if (json[i].user_id == id) {
+    					$("<h2/>").attr({'class':'entry'}).text(json[i].form).appendTo(body);
+    					$("<h3/>").attr({'class':'quote'}).text(json[i].quote).appendTo(body);
+    					$("<p/>").attr({'class':'def'}).text(json[i].definition).appendTo(body);
+    					$("<p/>").attr({'class':'example'}).text(json[i].example).appendTo(body);
+    				}
+    			}
+    		})
+//     		titre.appendTo("#displayInfos");
+// 	    	body.insertAfter(titre);
+	    });
         </script>
     </body>
 </html>
